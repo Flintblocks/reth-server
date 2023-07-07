@@ -10,3 +10,14 @@ services:
       - "9545:8545"
     volumes:
       - ~/chain/reth/data/db:/data/db
+  reth-ws:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - RETH_DB_PATH=/data/db
+    ports:
+      - "9546:8546"
+    volumes:
+      - ~/chain/reth/data/db:/data/db
+    command: [ "./rust-server", "--ws" ]

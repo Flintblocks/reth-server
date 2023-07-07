@@ -24,6 +24,13 @@ use reth_tasks::TokioTaskExecutor;
 use reth_transaction_pool::test_utils::testing_pool;
 
 use std::{path::Path, sync::Arc};
+use structopt::StructOpt;
+
+#[derive(StructOpt)]
+struct Cli {
+    #[structopt(long = "ws")]
+    ws: bool,
+}
 
 // Example illustrating how to run the ETH JSON RPC API as standalone over a DB file.
 // TODO: Add example showing how to spin up your own custom RPC namespace alongside
@@ -32,6 +39,8 @@ use std::{path::Path, sync::Arc};
 async fn main() -> eyre::Result<()> {
     // 1. Setup the DB
     println!("Starting reth server...");
+    let args = Cli::from_args();
+    println!("WS enabled={:?}", args.ws);
     let db = Arc::new(open_db_read_only(
         &Path::new(&std::env::var("RETH_DB_PATH")?),
         None,
@@ -75,8 +84,13 @@ async fn main() -> eyre::Result<()> {
     let server = rpc_builder.build(config);
 
     // Start the server & keep it alive
-    let server_args =
-        RpcServerConfig::http(Default::default()).with_http_address("0.0.0.0:8545".parse()?);
+    let server_args = match args.ws {
+        true => RpcServerConfig::ws(Default::default()).with_http_address("0.0.0.0:8546".parse()?),
+        false => {
+            RpcServerConfig::http(Default::default()).with_http_address("0.0.0.0:8545".parse()?)
+        }
+    };
+    println!("Server args: {:?}", server_args);
     let _handle = server_args.start(server).await?;
     futures::future::pending::<()>().await;
 

@@ -9,6 +9,7 @@ edition = "2021"
 eyre = "0.6.8"
 reth = { git= "https://github.com/paradigmxyz/reth.git", branch="main"}
 tokio = { version = "1.29.1", features = ["full"] }
+structopt = { version = "0.3", default-features = false }
 
 reth-db = { git = "https://github.com/paradigmxyz/reth", features = ["mdbx"] }
 reth-primitives = { git = "https://github.com/paradigmxyz/reth"}
