@@ -1,6 +1,6 @@
 # Build Stage
 FROM rust:1.55 as builder
-
+RUN apt-get update && apt-get install -y clang
 WORKDIR /usr/src/myapp
 
 # Copy over your source code
@@ -16,6 +16,7 @@ FROM archlinux:latest
 WORKDIR /root
 
 # Copy the binary from builder stage
+RUN pacman -Syu --noconfirm clang
 COPY --from=builder /usr/src/myapp/target/release/main .
 
 CMD ["./main"]
