@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  my-rust-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - HTTP_PORT=9545
+      - RETH_DB_PATH=/data/db
+    ports:
+      - "9545:9545"
+    volumes:
+      - ~/chain/reth/data/db:/data/db
