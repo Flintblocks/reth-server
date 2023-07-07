@@ -1,0 +1,30 @@
+[package]
+name = "reth-server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+eyre = "0.6.8"
+reth = { git= "https://github.com/paradigmxyz/reth.git", branch="main"}
+tokio = { version = "1.29.1", features = ["full"] }
+
+reth-db = { git = "https://github.com/paradigmxyz/reth", features = ["mdbx"] }
+reth-primitives = { git = "https://github.com/paradigmxyz/reth"}
+reth-provider = { git = "https://github.com/paradigmxyz/reth"}
+reth-rpc-builder = { git = "https://github.com/paradigmxyz/reth"}
+reth-beacon-consensus = { git = "https://github.com/paradigmxyz/reth"}
+reth-blockchain-tree = { git = "https://github.com/paradigmxyz/reth"}
+reth-revm = { git = "https://github.com/paradigmxyz/reth"}
+reth-network-api = { git = "https://github.com/paradigmxyz/reth"}
+reth-tasks = { git = "https://github.com/paradigmxyz/reth"}
+reth-transaction-pool = { git = "https://github.com/paradigmxyz/reth"}
+futures = "0.3.28"
+
+[patch.crates-io]
+# patched for quantity U256 responses <https://github.com/recmo/uint/issues/224>
+ruint = { git = "https://github.com/paradigmxyz/uint" }
+
+revm = { git = "https://github.com/bluealloy/revm/", branch = "release/v25" }
+revm-primitives = { git = "https://github.com/bluealloy/revm/", branch = "release/v25" }
