@@ -19,4 +19,4 @@ WORKDIR /root
 RUN pacman -Syu --noconfirm clang
 COPY --from=builder /usr/src/myapp/target/release/reth-server .
 
-CMD ["./main"]
+CMD ["./reth-server"]
