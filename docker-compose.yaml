@@ -20,4 +20,4 @@ services:
       - "9546:8546"
     volumes:
       - ~/chain/reth/data/db:/data/db
-    command: [ "./rust-server", "--ws" ]
+    command: [ "./reth-server", "--ws" ]
