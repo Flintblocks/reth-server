@@ -35,6 +35,7 @@ async fn main() -> eyre::Result<()> {
         &Path::new(&std::env::var("RETH_DB_PATH")?),
         None,
     )?);
+    let http_port = std::env::var("HTTP_PORT")?;
     let spec = Arc::new(ChainSpecBuilder::mainnet().build());
     let factory = ProviderFactory::new(db.clone(), spec.clone());
 
@@ -74,8 +75,8 @@ async fn main() -> eyre::Result<()> {
     let server = rpc_builder.build(config);
 
     // Start the server & keep it alive
-    let server_args =
-        RpcServerConfig::http(Default::default()).with_http_address("0.0.0.0:8545".parse()?);
+    let server_args = RpcServerConfig::http(Default::default())
+        .with_http_address(format!("0.0.0.0:{}", http_port).parse()?);
     let _handle = server_args.start(server).await?;
     futures::future::pending::<()>().await;
 
