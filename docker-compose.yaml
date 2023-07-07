@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   reth-http:
+    pid: "reth-http"
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,6 +12,7 @@ services:
     volumes:
       - ~/chain/reth/data/db:/data/db
   reth-ws:
+    pid: "reth-ws"
     build:
       context: .
       dockerfile: Dockerfile
