@@ -89,7 +89,7 @@ async fn main() -> eyre::Result<()> {
 
     let server_args = RpcServerConfig::default()
         .with_http(Default::default())
-        .with_cors(Default::default())
+        .with_ws(Default::default())
         .with_http_address("0.0.0.0:8545".parse()?)
         .with_ws_address("0.0.0.0:8546".parse()?)
         .with_cors(Some("*".to_string()));
