@@ -5,7 +5,7 @@ read -p "Enter the number of services you want to scale: " scale_number
 
 
 #build images
-docker compose build
+docker build . -t reth-server
 
 #build network
 docker network create reth-net
@@ -56,8 +56,8 @@ do
   echo "        server $container_name:8546;" >> nginx.conf
   
   # Run Docker command for each reth-http service
-  echo "docker run -d --name reth-http-$i --net=reth-net --pid=host -p $port_http:8545 -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http"
-  docker run -d --name reth-http-$i --net=reth-net --pid=host -p $port_http:8545 -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http
+  echo "docker run -d --name reth-server-$i --net=reth-net --pid=host -p $port_http:8545 -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server"
+  docker run -d --name reth-server-$i --net=reth-net --pid=host -p $port_http:8545 -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server
 
   # Run Docker command for each reth-ws service
 done
