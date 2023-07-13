@@ -19,6 +19,14 @@ do
   # Calculate port_http
   port_http=$((9545 + i * 100))
   # Add server to the NGINX configuration file
+  container_name="reth-http-$i"
+
+  # If a container with the same name exists, stop and remove it
+  if [ $(docker ps -a -q -f name=$container_name) ]; then
+      docker stop $container_name
+      docker rm $container_name
+  fi
+
   echo "        server localhost:$port_http;" >> nginx.conf
 
   # Run Docker command for each reth-http service
@@ -34,6 +42,14 @@ do
   # Calculate port_ws
   port_ws=$((9546 + i * 100))
   # Add server to the NGINX configuration file
+  container_name="reth-ws-$i"
+
+  # If a container with the same name exists, stop and remove it
+  if [ $(docker ps -a -q -f name=$container_name) ]; then
+      docker stop $container_name
+      docker rm $container_name
+  fi
+
   echo "        server localhost:$port_ws;" >> nginx.conf
 
   # Run Docker command for each reth-ws service
