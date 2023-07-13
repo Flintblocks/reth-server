@@ -80,11 +80,17 @@ async fn main() -> eyre::Result<()> {
         .with_events(TestCanonStateSubscriptions::default());
 
     // Pick which namespaces to expose.
-    let config = TransportRpcModuleConfig::default().with_http([
-        RethRpcModule::Eth,
-        RethRpcModule::Trace,
-        RethRpcModule::Txpool,
-    ]);
+    let config = TransportRpcModuleConfig::default()
+        .with_http([
+            RethRpcModule::Eth,
+            RethRpcModule::Trace,
+            RethRpcModule::Txpool,
+        ])
+        .with_ws([
+            RethRpcModule::Eth,
+            RethRpcModule::Trace,
+            RethRpcModule::Txpool,
+        ]);
     let server = rpc_builder.build(config);
 
     let server_args = RpcServerConfig::default()
