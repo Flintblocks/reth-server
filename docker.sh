@@ -31,8 +31,8 @@ do
   echo "        server localhost:$port_http;" >> nginx.conf
 
   # Run Docker command for each reth-http service
-  echo "docker run -d --name reth-http-$i --pid=reth-http -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http"
-  docker run -d --name reth-http-$i --pid=reth-http -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http
+  echo "docker run -d --name reth-http-$i --pid=host -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http"
+  docker run -d --name reth-http-$i --pid=host -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http
 done
 
 echo "    }" >> nginx.conf  # Close reth-http upstream
@@ -56,8 +56,8 @@ do
   echo "        server localhost:$port_ws;" >> nginx.conf
 
   # Run Docker command for each reth-ws service
-  echo "docker run -d --name reth-ws-$i --pid=reth-ws -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-ws"
-  docker run -d --name reth-ws-$i --pid=reth-ws -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-ws
+  echo "docker run -d --name reth-ws-$i --pid=host -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-ws"
+  docker run -d --name reth-ws-$i --pid=host -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-ws
 done
 
 echo "    }" >> nginx.conf  # Close reth-ws upstream
