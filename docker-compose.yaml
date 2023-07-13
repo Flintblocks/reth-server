@@ -9,8 +9,6 @@ services:
       - RETH_DB_PATH=/data/db
     volumes:
       - ~/chain/reth/data/db:/data/db
-    ports:
-      - "${PORT}:8545"
   reth-ws:
     pid: "host"
     build:
@@ -20,8 +18,6 @@ services:
       - RETH_DB_PATH=/data/db
     volumes:
       - ~/chain/reth/data/db:/data/db
-    ports:
-      - "${PORT_WS}:8546"
     command: [ "./reth-server", "--ws" ]
   nginx:
     image: nginx
