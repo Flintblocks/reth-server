@@ -1,61 +1,32 @@
 version: '3.8'
+
 services:
-  reth-http-1:
+  reth-http:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - RETH_DB_PATH=/data/db
+    volumes:
+      - ~/chain/reth/data/db:/data/db
+    ports:
+      - "${PORT}:8545"
+  reth-ws:
     pid: "host"
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       - RETH_DB_PATH=/data/db
-    ports:
-      - "9545:8545"
     volumes:
       - ~/chain/reth/data/db:/data/db
-  reth-ws-1:
-    pid: "host"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - RETH_DB_PATH=/data/db
     ports:
-      - "9546:8546"
-    volumes:
-      - ~/chain/reth/data/db:/data/db
+      - "${PORT_WS}:8546"
     command: [ "./reth-server", "--ws" ]
-  reth-ws-2:
-    pid: "host"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - RETH_DB_PATH=/data/db
-    ports:
-      - "10546:8546"
+  nginx:
+    image: nginx
     volumes:
-      - ~/chain/reth/data/db:/data/db
-    command: [ "./reth-server", "--ws" ]
-  reth-ws-3:
-    pid: "host"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - RETH_DB_PATH=/data/db
+      - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "11546:8546"
-    volumes:
-      - ~/chain/reth/data/db:/data/db
-    command: [ "./reth-server", "--ws" ]
-  reth-ws-4:
-    pid: "host"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - RETH_DB_PATH=/data/db
-    ports:
-      - "12546:8546"
-    volumes:
-      - ~/chain/reth/data/db:/data/db
-    command: [ "./reth-server", "--ws" ]
+      - "8545:8545"
+      - "8546:8546"
