@@ -55,5 +55,5 @@ do
   port_ws=$((9546 + i * 100))
 
   # Run Docker Compose command
-  INDEX=$i PORT=$port_http PORT_WS=$port_ws docker-compose up -d --scale reth-http=$scale_number --scale reth-ws=$scale_number
+  INDEX=$i PORT=$port_http PORT_WS=$port_ws docker compose up -d --scale reth-http=$scale_number --scale reth-ws=$scale_number
 done
