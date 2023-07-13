@@ -23,7 +23,7 @@ use reth_provider::test_utils::TestCanonStateSubscriptions;
 use reth_tasks::TokioTaskExecutor;
 use reth_transaction_pool::test_utils::testing_pool;
 
-use std::{path::Path, sync::Arc};
+use std::{default, path::Path, sync::Arc};
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -80,10 +80,16 @@ async fn main() -> eyre::Result<()> {
         .with_events(TestCanonStateSubscriptions::default());
 
     // Pick which namespaces to expose.
-    let config = TransportRpcModuleConfig::default().with_http([RethRpcModule::Eth]);
+    let config = TransportRpcModuleConfig::default().with_http([
+        RethRpcModule::Eth,
+        RethRpcModule::Trace,
+        RethRpcModule::Txpool,
+    ]);
     let server = rpc_builder.build(config);
 
     let server_args = RpcServerConfig::default()
+        .with_http(Default::default())
+        .with_cors(Default::default())
         .with_http_address("0.0.0.0:8545".parse()?)
         .with_ws_address("0.0.0.0:8546".parse()?)
         .with_cors(Some("*".to_string()));
