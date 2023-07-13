@@ -18,5 +18,5 @@ WORKDIR /root
 # Copy the binary from builder stage
 RUN pacman -Syu --noconfirm clang
 COPY --from=builder /usr/src/myapp/target/release/reth-server .
-
+EXPOSE 8546
 CMD ["./reth-server", "--ws"]
