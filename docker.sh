@@ -47,7 +47,7 @@ do
   # If a container with the same name exists, stop and remove it
   if [ $(docker ps -a -q -f name=$container_name) ]; then
       docker stop $container_name
-      docker rm $container_name
+      docker rm -f $container_name
   fi
 
   echo "        server localhost:$port_ws;" >> nginx.conf
