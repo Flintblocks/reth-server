@@ -83,4 +83,5 @@ echo "        }" >> nginx.conf
 echo "    }" >> nginx.conf
 echo "}" >> nginx.conf
 
-docker compose up -d nginx
+docker run -d --name nginx --net=reth-net -p 8080:80 -p 8081:81 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro nginx
+
