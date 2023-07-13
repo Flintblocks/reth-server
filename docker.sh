@@ -22,9 +22,10 @@ do
   container_name="reth-http-$i"
 
   # If a container with the same name exists, stop and remove it
-  if [ $(docker ps -a -q -f name=$container_name) ]; then
+  if [ "$(docker ps -a -q -f name=$container_name)" ]; then
+      echo "Stopping and removing existing container $container_name"
       docker stop $container_name
-      docker rm $container_name
+      docker rm -f $container_name
   fi
 
   echo "        server localhost:$port_http;" >> nginx.conf
@@ -45,7 +46,8 @@ do
   container_name="reth-ws-$i"
 
   # If a container with the same name exists, stop and remove it
-  if [ $(docker ps -a -q -f name=$container_name) ]; then
+  if [ "$(docker ps -a -q -f name=$container_name)" ]; then
+      echo "Stopping and removing existing container $container_name"
       docker stop $container_name
       docker rm -f $container_name
   fi
