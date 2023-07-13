@@ -7,6 +7,6 @@ start:
 stop: 
 	docker container stop $(docker ps -q)
 remove:
-	docker container rm $(docker ps -q)	
+	docker container rm $(docker ps -a -q)	
 
 
