@@ -22,7 +22,7 @@ do
   echo "        server localhost:$port_http;" >> nginx.conf
 
   # Run Docker command for each reth-http service
-  docker run -d --name reth-http-$i -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-http
+  docker run -d --name reth-server-reth-http-$i -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-http
 done
 
 echo "    }" >> nginx.conf  # Close reth-http upstream
@@ -37,7 +37,7 @@ do
   echo "        server localhost:$port_ws;" >> nginx.conf
 
   # Run Docker command for each reth-ws service
-  docker run -d --name reth-ws-$i -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-ws
+  docker run -d --name reth-server-reth-ws-$i -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-ws
 done
 
 echo "    }" >> nginx.conf  # Close reth-ws upstream
