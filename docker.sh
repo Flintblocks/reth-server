@@ -22,7 +22,7 @@ do
   # Calculate port_http
   port_http=$((9545 + i * 100))
   # Add server to the NGINX configuration file
-  container_name="reth-http-$i"
+  container_name="reth-server-$i"
 
   # If a container with the same name exists, stop and remove it
   if [ "$(docker ps -a -q -f name=$container_name)" ]; then
@@ -32,11 +32,7 @@ do
   fi
 
   echo "        server $container_name:8545;" >> nginx.conf
-
-  # Run Docker command for each reth-http service
-  echo "docker run -d --name reth-http-$i --net=reth-net --pid=host -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http"
-  docker run -d --name reth-http-$i --net=reth-net --pid=host -p $port_http:8545 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http
-done
+  done
 
 echo "    }" >> nginx.conf  # Close reth-http upstream
 
@@ -45,9 +41,10 @@ echo "    upstream reth-ws {" >> nginx.conf
 for (( i=0; i<$scale_number; i++ ))
 do
   # Calculate port_ws
+  port_http=$((9545 + i * 100))
   port_ws=$((9546 + i * 100))
   # Add server to the NGINX configuration file
-  container_name="reth-ws-$i"
+  container_name="reth-server-$i"
 
   # If a container with the same name exists, stop and remove it
   if [ "$(docker ps -a -q -f name=$container_name)" ]; then
@@ -57,10 +54,12 @@ do
   fi
 
   echo "        server $container_name:8546;" >> nginx.conf
+  
+  # Run Docker command for each reth-http service
+  echo "docker run -d --name reth-http-$i --net=reth-net --pid=host -p $port_http:8545 $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http"
+  docker run -d --name reth-http-$i --net=reth-net --pid=host -p $port_http:8545 $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-http
 
   # Run Docker command for each reth-ws service
-  echo "docker run -d --name reth-ws-$i --net=reth-net --pid=host -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-ws"
-  docker run -d --name reth-ws-$i --net=reth-net --pid=host -p $port_ws:8546 -v ~/chain/reth/data/db:/data/db -e RETH_DB_PATH=/data/db reth-server-reth-ws
 done
 
 echo "    }" >> nginx.conf  # Close reth-ws upstream

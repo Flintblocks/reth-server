@@ -19,4 +19,5 @@ WORKDIR /root
 RUN pacman -Syu --noconfirm clang
 COPY --from=builder /usr/src/myapp/target/release/reth-server .
 EXPOSE 8545
+EXPOSE 8546
 CMD ["./reth-server"]

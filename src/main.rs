@@ -83,13 +83,11 @@ async fn main() -> eyre::Result<()> {
     let config = TransportRpcModuleConfig::default().with_http([RethRpcModule::Eth]);
     let server = rpc_builder.build(config);
 
-    // Start the server & keep it alive
-    let server_args = match args.ws {
-        true => RpcServerConfig::ws(Default::default()).with_http_address("0.0.0.0:8546".parse()?),
-        false => {
-            RpcServerConfig::http(Default::default()).with_http_address("0.0.0.0:8545".parse()?)
-        }
-    };
+    let server_args = RpcServerConfig::default()
+        .with_http_address("0.0.0.0:8545".parse()?)
+        .with_ws_address("0.0.0.0:8546".parse()?)
+        .with_cors(Some("*".to_string()));
+
     println!("Server args: {:?}", server_args);
     let _handle = server_args.start(server).await?;
     futures::future::pending::<()>().await;
