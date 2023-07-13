@@ -83,5 +83,11 @@ echo "        }" >> nginx.conf
 echo "    }" >> nginx.conf
 echo "}" >> nginx.conf
 
+
+if [ "$(docker ps -a -q -f name=nginx)" ]; then
+      echo "Stopping and removing existing container nginx"
+      docker stop nginx
+      docker rm -f nginx
+  fi
 docker run -d --name nginx --net=reth-net -p 8080:8080 -p 8081:8081 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro nginx
 
