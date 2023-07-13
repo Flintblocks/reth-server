@@ -31,13 +31,13 @@ echo "    }" >> nginx.conf  # Close reth-ws upstream
 
 # Continue with the server blocks and close the http block
 echo "    server {" >> nginx.conf
-echo "        listen 8545;" >> nginx.conf
+echo "        listen 8080;" >> nginx.conf
 echo "        location / {" >> nginx.conf
 echo "            proxy_pass http://reth-http;" >> nginx.conf
 echo "        }" >> nginx.conf
 echo "    }" >> nginx.conf
 echo "    server {" >> nginx.conf
-echo "        listen 8546;" >> nginx.conf
+echo "        listen 8081;" >> nginx.conf
 echo "        location / {" >> nginx.conf
 echo "            proxy_pass http://reth-ws;" >> nginx.conf
 echo "            proxy_http_version 1.1;" >> nginx.conf
