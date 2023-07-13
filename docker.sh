@@ -83,5 +83,5 @@ echo "        }" >> nginx.conf
 echo "    }" >> nginx.conf
 echo "}" >> nginx.conf
 
-docker run -d --name nginx --net=reth-net -p 8080:80 -p 8081:81 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro nginx
+docker run -d --name nginx --net=reth-net -p 8080:8080 -p 8081:8081 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro nginx
 
