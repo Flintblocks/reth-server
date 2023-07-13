@@ -4,7 +4,7 @@ services:
   reth-http:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     environment:
       - RETH_DB_PATH=/data/db
     volumes:
@@ -13,7 +13,7 @@ services:
     pid: "host"
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile-ws
     environment:
       - RETH_DB_PATH=/data/db
     volumes:
